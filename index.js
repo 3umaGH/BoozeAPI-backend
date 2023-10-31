@@ -11,7 +11,7 @@ app.use(cors());
 
 app.use("/cocktail", (req, res, next) => {
     console.log("Request to /assets received");
-    express.static("assets/drinks")(req, res, next);
+    express.static("static/drinks")(req, res, next);
 });
 
 // DB
