@@ -2,7 +2,11 @@ const express = require("express");
 const router = express.Router();
 const Drink = require("../models/drink");
 
+require("dotenv").config();
+
 const { param, validationResult } = require("express-validator");
+
+const MAX_IDS_PER_QUERY = process.env.MAX_IDS_PER_QUERY || 100;
 
 router.get(
   "/id/:id",
@@ -38,11 +42,11 @@ router.get(
     try {
       const targetIds = req.params.ids.split(",");
 
-      if (targetIds.length > 100) {
-        console.log("targetIds length is more than 100");
-        return res
-          .status(404)
-          .json({ message: "Cannot search for more than 100 ids." });
+      if (targetIds.length > MAX_IDS_PER_QUERY) {
+        console.log(`targetIds length is more than ${MAX_IDS_PER_QUERY}`);
+        return res.status(404).json({
+          message: `Cannot search for more than ${MAX_IDS_PER_QUERY} ids.`,
+        });
       }
 
       const drinks = await Drink.find({ id: { $in: targetIds } }).exec();
@@ -60,29 +64,24 @@ router.get(
   }
 );
 
-router.get(
-    "/name/:name",
-    [
-      param("name").trim().escape(),
-    ],
-    async (req, res) => {
-      try {
-        const targetName = req.params.name;
-        const drinks = await Drink.find({ name: { $regex: targetName, $options: 'i' } }).exec();
-  
-        if (!drinks || drinks.length == 0) {
-            console.log("No drinks found with name:", targetName);
-            return res.status(404).json({ message: "Drinks not found" });
-          }
-  
-        return res.status(200).json(drinks);
-      } catch (err) {
-        console.error(err);
-        res.status(500).send("Internal Server Error");
-      }
+router.get("/name/:name", [param("name").trim().escape()], async (req, res) => {
+  try {
+    const targetName = req.params.name;
+    const drinks = await Drink.find({
+      name: { $regex: targetName, $options: "i" },
+    }).exec();
+
+    if (!drinks || drinks.length == 0) {
+      console.log("No drinks found with name:", targetName);
+      return res.status(404).json({ message: "Drinks not found" });
     }
-  );
-  
+
+    return res.status(200).json(drinks);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Internal Server Error");
+  }
+});
 
 router.get("*", (req, res) => {
   res.status(404).json({ message: "Not found" });
