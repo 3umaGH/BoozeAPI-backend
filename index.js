@@ -42,4 +42,9 @@ connect();
 const searchRouter = require("./routes/search");
 app.use("/search", searchRouter);
 
+app.get("*", (req,res) => {
+    res.status(404).json({ message: "Not found" });
+})
+
+
 app.listen(process.env.LISTEN_PORT);
