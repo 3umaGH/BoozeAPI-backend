@@ -9,7 +9,7 @@
   "routes": [
     {
       "src": "/drinks(.*)",
-      "dest": "/drinks"
+      "dest": "/public/drinks"
     },
     {
       "src": "/(.*)",
