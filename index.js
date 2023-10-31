@@ -9,7 +9,7 @@ const app = express();
 
 app.use(cors());
 
-app.use("/cocktail", (req, res, next) => {
+app.use("/cocktail2", (req, res, next) => {
     console.log("Request to /assets received");
     express.static("/drinks")(req, res, next);
 });
