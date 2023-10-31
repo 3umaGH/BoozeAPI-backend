@@ -7,6 +7,7 @@ require("dotenv").config();
 const { param, validationResult } = require("express-validator");
 
 const MAX_IDS_PER_QUERY = process.env.MAX_IDS_PER_QUERY || 100;
+const MIN_CHAR_PER_NAME_SEARCH = process.env.MIN_CHAR_PER_NAME_SEARCH || 3;
 
 router.get(
   "/id/:id",
@@ -44,7 +45,7 @@ router.get(
 
       if (targetIds.length > MAX_IDS_PER_QUERY) {
         console.log(`targetIds length is more than ${MAX_IDS_PER_QUERY}`);
-        return res.status(404).json({
+        return res.status(400).json({
           message: `Cannot search for more than ${MAX_IDS_PER_QUERY} ids.`,
         });
       }
@@ -67,6 +68,13 @@ router.get(
 router.get("/name/:name", [param("name").trim().escape()], async (req, res) => {
   try {
     const targetName = req.params.name;
+
+    if (targetName.length < MIN_CHAR_PER_NAME_SEARCH) {
+      console.log(`targetName length is more than ${MIN_CHAR_PER_NAME_SEARCH}`);
+      return res.status(400).json({
+        message: `Please enter at least ${MIN_CHAR_PER_NAME_SEARCH} characters.`,
+      });
+    }
     const drinks = await Drink.find({
       name: { $regex: targetName, $options: "i" },
     }).exec();
