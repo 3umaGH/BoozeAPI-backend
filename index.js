@@ -6,11 +6,9 @@ require("dotenv").config();
 
 const app = express();
 
-
 app.use(cors());
 
 app.use("/drinks", express.static("public/drinks"));
-
 
 // DB
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`;
@@ -50,16 +48,12 @@ function checkSecret(req, res, next) {
 }
 
 app.use("/search", checkSecret, require("./routes/search"));
-
 app.use("/cocktail", checkSecret, require("./routes/cocktail"));
 app.use("/cocktails", checkSecret, require("./routes/cocktails"));
-
-
 app.use("/lookup", checkSecret, require("./routes/lookup"));
 
-/*
 app.get("*", (req, res) => {
   res.status(404).json({ message: "URL Not found" });
-});*/
+});
 
 app.listen(process.env.LISTEN_PORT);
