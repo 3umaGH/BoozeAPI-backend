@@ -46,11 +46,17 @@ function checkSecret(req, res, next) {
   }
 }
 
-const searchRouter = require("./routes/search");
-app.use("/search", checkSecret, searchRouter);
+app.use("/search", checkSecret, require("./routes/search"));
+
+app.use("/cocktail", checkSecret, require("./routes/cocktail"));
+app.use("/cocktails", checkSecret, require("./routes/cocktails"));
+
+
+app.use("/lookup", checkSecret, require("./routes/lookup"));
+
 
 app.get("*", (req, res) => {
-  res.status(404).json({ message: "Not found" });
+  res.status(404).json({ message: "URL Not found" });
 });
 
 app.listen(process.env.LISTEN_PORT);
