@@ -60,6 +60,30 @@ router.get(
   }
 );
 
+router.get(
+    "/name/:name",
+    [
+      param("name").trim().escape(),
+    ],
+    async (req, res) => {
+      try {
+        const targetName = req.params.name;
+        const drinks = await Drink.find({ name: { $regex: targetName, $options: 'i' } }).exec();
+  
+        if (!drinks || drinks.length == 0) {
+            console.log("No drinks found with name:", targetName);
+            return res.status(404).json({ message: "Drinks not found" });
+          }
+  
+        return res.status(200).json(drinks);
+      } catch (err) {
+        console.error(err);
+        res.status(500).send("Internal Server Error");
+      }
+    }
+  );
+  
+
 router.get("*", (req, res) => {
   res.status(404).json({ message: "Not found" });
 });
