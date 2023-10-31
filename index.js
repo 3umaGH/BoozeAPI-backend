@@ -6,8 +6,13 @@ require("dotenv").config();
 
 const app = express();
 
-app.use("/assets", express.static("assets"));
+
 app.use(cors());
+
+app.use("/assets", (req, res, next) => {
+    console.log("Request to /assets received");
+    express.static("assets")(req, res, next);
+});
 
 // DB
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`;

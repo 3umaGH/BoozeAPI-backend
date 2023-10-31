@@ -14,7 +14,7 @@ router.get("/", [query("name").trim().escape()], async (req, res) => {
     const targetName = req.query.name;
 
     if (targetName.length < MIN_CHAR_PER_NAME_SEARCH) {
-      console.log(`targetName length is more than ${MIN_CHAR_PER_NAME_SEARCH}`);
+      console.log(`targetName length is less than ${MIN_CHAR_PER_NAME_SEARCH}`);
       return res.status(400).json({
         message: `Please enter at least ${MIN_CHAR_PER_NAME_SEARCH} characters.`,
       });
