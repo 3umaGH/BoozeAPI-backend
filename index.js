@@ -34,17 +34,23 @@ mongoose.connection.on("disconnected", () => {
   setTimeout(() => {
     connect();
   }, 10000);
-
 });
 
 connect();
 
+function checkSecret(req, res, next) {
+  if (req.query.key === process.env.SECRET_KEY) {
+    next();
+  } else {
+    res.status(403).json({ message: "Access denied. Invalid key." });
+  }
+}
+
 const searchRouter = require("./routes/search");
-app.use("/search", searchRouter);
+app.use("/search", checkSecret, searchRouter);
 
-app.get("*", (req,res) => {
-    res.status(404).json({ message: "Not found" });
-})
-
+app.get("*", (req, res) => {
+  res.status(404).json({ message: "Not found" });
+});
 
 app.listen(process.env.LISTEN_PORT);
