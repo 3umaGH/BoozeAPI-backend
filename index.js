@@ -9,10 +9,8 @@ const app = express();
 
 app.use(cors());
 
-app.use("/cocktail2", (req, res, next) => {
-    console.log("Request to /assets received");
-    express.static("/drinks")(req, res, next);
-});
+app.use("/drinks", express.static("/drinks"));
+
 
 // DB
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`;
@@ -59,9 +57,9 @@ app.use("/cocktails", checkSecret, require("./routes/cocktails"));
 
 app.use("/lookup", checkSecret, require("./routes/lookup"));
 
-
+/*
 app.get("*", (req, res) => {
   res.status(404).json({ message: "URL Not found" });
-});
+});*/
 
 app.listen(process.env.LISTEN_PORT);
