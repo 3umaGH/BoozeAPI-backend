@@ -9,9 +9,9 @@ const app = express();
 
 app.use(cors());
 
-app.use("/drinks", (req, res, next) => {
+app.use("/cocktail", (req, res, next) => {
     console.log("Request to /assets received");
-    express.static("public/drinks")(req, res, next);
+    express.static("assets/drinks")(req, res, next);
 });
 
 // DB
