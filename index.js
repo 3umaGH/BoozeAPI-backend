@@ -9,7 +9,7 @@ const app = express();
 
 app.use(cors());
 
-app.use("/drinks", express.static("/drinks"));
+app.use("/drinks", express.static("public/drinks"));
 
 
 // DB
