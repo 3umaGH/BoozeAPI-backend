@@ -8,8 +8,8 @@
   ],
   "routes": [
     {
-      "src": "/assets/drinks/(.*)",
-      "dest": "/assets/drinks/$1"
+      "src": "/assets/(.*)",
+      "dest": "/assets/$1"
     },
     {
       "src": "/(.*)",
