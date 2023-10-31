@@ -4,14 +4,14 @@ const Drink = require("../models/drink");
 
 require("dotenv").config();
 
-const { param, validationResult } = require("express-validator");
+const { query } = require("express-validator");
 
 const MAX_IDS_PER_QUERY = process.env.MAX_IDS_PER_QUERY || 100;
 const MIN_CHAR_PER_NAME_SEARCH = process.env.MIN_CHAR_PER_NAME_SEARCH || 3;
 
-router.get("/name/:name", [param("name").trim().escape()], async (req, res) => {
+router.get("/", [query("name").trim().escape()], async (req, res) => {
   try {
-    const targetName = req.params.name;
+    const targetName = req.query.name;
 
     if (targetName.length < MIN_CHAR_PER_NAME_SEARCH) {
       console.log(`targetName length is more than ${MIN_CHAR_PER_NAME_SEARCH}`);
