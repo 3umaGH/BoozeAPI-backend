@@ -1,18 +1,15 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const path = require('path');
-
+const path = require("path");
 
 require("dotenv").config();
 
 const app = express();
+const dir = path.resolve("public/");
 
 app.use(cors());
-
-const dir = path.resolve('public/');
 app.use("/cocktails", express.static("public/assets/cocktails"));
-
 
 // DB
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`;
@@ -56,8 +53,8 @@ app.use("/cocktail", checkSecret, require("./routes/cocktail"));
 app.use("/cocktails", checkSecret, require("./routes/cocktails"));
 app.use("/lookup", checkSecret, require("./routes/lookup"));
 
-/*app.get("*", (req, res) => {
+app.get("*", (req, res) => {
   res.status(404).json({ message: "URL not found" });
-});*/
+});
 
 app.listen(process.env.LISTEN_PORT);
