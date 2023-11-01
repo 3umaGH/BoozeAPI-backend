@@ -8,7 +8,7 @@ const app = express();
 
 app.use(cors());
 
-app.use("/drinks", express.static("public/drinks"));
+app.use("/drinks", express.static("static/drinks"));
 
 // DB
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`;
