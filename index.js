@@ -73,6 +73,7 @@ app.use("/cocktails", require("./routes/cocktails"));
 app.use("/lookup", require("./routes/lookup"));
 app.use("/list", require("./routes/list"));
 
+
 app.get("*", (req, res) => {
   res.status(404).json({ message: "URL not found" });
 });

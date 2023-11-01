@@ -22,11 +22,13 @@ router.get(
     try {
       const targetName = decodeURIComponent(req.query.name);
       const targetGlass = decodeURIComponent(req.query.glass);
-      const targetCategory = decodeURIComponent(req.query.category);
+      const targetCategory = decodeURIComponent(req.query.category).replace('&#x2F;', '/');
       const targetIngredients =
         req.query.ingredients !== "" &&
         decodeURIComponent(req.query.ingredients).split(",");
       const targetAlcoholic = decodeURIComponent(req.query.alcoholic);
+
+      console.log(req.query.category,targetCategory);
 
       const queryConditions = [];
 
