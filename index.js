@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const path = require('path');
+
 
 require("dotenv").config();
 
@@ -8,7 +10,8 @@ const app = express();
 
 app.use(cors());
 
-app.use("/", express.static("/"));
+const dir = path.resolve('public/');
+app.use("/", express.static("public"));
 
 
 // DB
