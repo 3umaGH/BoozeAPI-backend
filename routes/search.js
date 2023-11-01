@@ -28,7 +28,7 @@ router.get(
       const targetAlcoholic = req.query.alcoholic;
 
       const queryConditions = [];
-
+      
       if (targetName) {
         if (targetName.length < MIN_CHAR_PER_NAME_SEARCH) {
           console.log(
@@ -38,20 +38,36 @@ router.get(
             message: `Please enter at least ${MIN_CHAR_PER_NAME_SEARCH} characters.`,
           });
         }
-
-        queryConditions.push({ name: { $regex: targetName, $options: "i" } });
+        queryConditions.push({ name: { $regex: new RegExp(targetName, "i") } });
       }
 
-      if (targetGlass) queryConditions.push({ glassType: targetGlass });
-
-      if (targetCategory) queryConditions.push({ category: targetCategory });
-
-      if (targetIngredients && targetIngredients.length > 0)
+      if (targetGlass) {
         queryConditions.push({
-          "ingredients.name": { $all: targetIngredients },
+          glassType: { $regex: new RegExp(targetGlass, "i") },
         });
+      }
 
-      if (targetAlcoholic) queryConditions.push({ alcoholic: targetAlcoholic });
+      if (targetCategory) {
+        queryConditions.push({
+          category: { $regex: new RegExp(targetCategory, "i") },
+        });
+      }
+
+      if (targetIngredients && targetIngredients.length > 0) {
+        queryConditions.push({
+          "ingredients.name": {
+            $all: targetIngredients.map(
+              (ingredient) => new RegExp(ingredient, "i")
+            ),
+          },
+        });
+      }
+
+      if (targetAlcoholic) {
+        queryConditions.push({
+          alcoholic: { $regex: new RegExp(targetAlcoholic, "i") },
+        });
+      }
 
       if (queryConditions.length === 0)
         return res.status(400).json({ message: "Invalid parameters." });
