@@ -38,8 +38,6 @@ mongoose.connection.on("disconnected", () => {
   }, 10000);
 });
 
-connect();
-
 function checkSecret(req, res, next) {
   if (req.query.key === process.env.SECRET_KEY || undefined) {
     next();
@@ -56,5 +54,7 @@ app.use("/lookup", checkSecret, require("./routes/lookup"));
 app.get("*", (req, res) => {
   res.status(404).json({ message: "URL not found" });
 });
+
+connect();
 
 app.listen(process.env.LISTEN_PORT);
