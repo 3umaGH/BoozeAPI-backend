@@ -20,15 +20,16 @@ router.get(
   ],
   async (req, res) => {
     try {
-      const targetName = req.query.name;
-      const targetGlass = req.query.glass;
-      const targetCategory = req.query.category;
+      const targetName = decodeURIComponent(req.query.name);
+      const targetGlass = decodeURIComponent(req.query.glass);
+      const targetCategory = decodeURIComponent(req.query.category);
       const targetIngredients =
-        req.query.ingredients !== "" && req.query.ingredients.split(",");
-      const targetAlcoholic = req.query.alcoholic;
+        req.query.ingredients !== "" &&
+        decodeURIComponent(req.query.ingredients).split(",");
+      const targetAlcoholic = decodeURIComponent(req.query.alcoholic);
 
       const queryConditions = [];
-      
+
       if (targetName) {
         if (targetName.length < MIN_CHAR_PER_NAME_SEARCH) {
           console.log(
