@@ -17,7 +17,7 @@ app.use(
   })
 );
 
-app.use("/cocktails", express.static("public/assets/cocktails"));
+app.use("/cocktail/img", express.static("public/assets/cocktails"));
 app.use(checkDBConnection);
 
 function checkDBConnection(req, res, next) {
