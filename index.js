@@ -11,7 +11,7 @@ const app = express();
 app.use(cors());
 
 const dir = path.resolve('public/');
-app.use("/", express.static("public"));
+app.use("/cocktails", express.static("public/assets/cocktails"));
 
 
 // DB
