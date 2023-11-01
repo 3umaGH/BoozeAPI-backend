@@ -8,7 +8,10 @@ require("dotenv").config();
 const app = express();
 const dir = path.resolve("public/");
 
-app.use(cors());
+app.use(cors({
+  origin: '*'
+}));
+
 app.use("/cocktails", express.static("public/assets/cocktails"));
 
 // DB
