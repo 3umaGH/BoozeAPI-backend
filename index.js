@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const autoReconnect = require("mongoose-auto-reconnect");
 const path = require("path");
 
 require("dotenv").config();
@@ -13,20 +12,11 @@ app.use(cors());
 app.use("/cocktails", express.static("public/assets/cocktails"));
 
 // DB
-const options = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  autoReconnect: true,
-  reconnectTries: 100,
-  reconnectInterval: 1000,
-};
-
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 
 // Connect to MongoDB
 const connect = () => {
-  mongoose.plugin(autoReconnect);
-  mongoose.connect(uri, options);
+  mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 };
 
 // Listen for the connection event
@@ -42,10 +32,11 @@ mongoose.connection.on("error", (err) => {
 // Listen for the disconnection event
 mongoose.connection.on("disconnected", () => {
   console.log("Mongoose disconnected trying to reconnect.");
-  connect();
-});
 
-connect();
+  setTimeout(() => {
+    mongoose.connect(uri, options);
+  }, 1000);
+});
 
 function checkSecret(req, res, next) {
   if (req.query.key === process.env.SECRET_KEY || undefined) {
@@ -63,5 +54,7 @@ app.use("/lookup", checkSecret, require("./routes/lookup"));
 app.get("*", (req, res) => {
   res.status(404).json({ message: "URL not found" });
 });
+
+connect();
 
 app.listen(process.env.LISTEN_PORT);
