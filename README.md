@@ -5,7 +5,7 @@ http://url/cocktail/<id>- Search by id (returns 1 cocktail)
 
 http://url/cocktails/<ids (1,2,3)>- Search by multiple ids (returns all found cocktails)
 
-http://url/search/?name=<name> - Search by name.
+http://localhost:3001/search/?name=<name>&glass=<glass>&category=<category>&ingredients=<ingredients>&alcoholic=<alcoholic> - Search by parameters. (can pass multiple ingredients separated by comma)
 
 
 

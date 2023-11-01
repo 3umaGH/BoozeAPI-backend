@@ -42,26 +42,19 @@ router.get(
         queryConditions.push({ name: { $regex: targetName, $options: "i" } });
       }
 
-      if (targetGlass) {
-        queryConditions.push({ glassType: targetGlass });
-      }
+      if (targetGlass) queryConditions.push({ glassType: targetGlass });
 
-      if (targetCategory) {
-        queryConditions.push({ category: targetCategory });
-      }
+      if (targetCategory) queryConditions.push({ category: targetCategory });
 
-      if (targetIngredients && targetIngredients.length > 0) {
+      if (targetIngredients && targetIngredients.length > 0)
         queryConditions.push({
           "ingredients.name": { $all: targetIngredients },
         });
-      }
 
-      if (targetAlcoholic) {
-        queryConditions.push({ alcoholic: targetAlcoholic });
-      }
+      if (targetAlcoholic) queryConditions.push({ alcoholic: targetAlcoholic });
 
       if (queryConditions.length === 0)
-        return res.status(400).json({ message: "No parameters provided." });
+        return res.status(400).json({ message: "Invalid parameters." });
 
       const drinks = await Drink.find({
         $and: queryConditions,
