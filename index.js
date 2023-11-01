@@ -8,12 +8,41 @@ require("dotenv").config();
 const app = express();
 const dir = path.resolve("public/");
 
+app.use(checkSecret);
+
 app.use(
   cors({
     origin: "*",
     optionsSuccessStatus: 200,
   })
 );
+
+app.use("/cocktails", express.static("public/assets/cocktails"));
+app.use(checkDBConnection);
+
+function checkDBConnection(req, res, next) {
+  if (mongoose.connection.readyState === 1) {
+    next();
+  } else {
+    const originalRequest = {
+      method: req.method,
+      url: req.url,
+      body: req.body,
+    };
+
+    mongoose.connection.once("connected", () => {
+      const repeatRequest = {
+        method: originalRequest.method,
+        url: originalRequest.url,
+        body: originalRequest.body,
+      };
+
+      app.handle(req, res, next);
+    });
+
+    mongoose.connect(uri, options);
+  }
+}
 
 function checkSecret(req, res, next) {
   if (req.query.key === process.env.SECRET_KEY || undefined) {
@@ -22,10 +51,6 @@ function checkSecret(req, res, next) {
     res.status(403).json({ message: "Access denied. Invalid key." });
   }
 }
-
-app.use(checkSecret);
-
-app.use("/cocktails", express.static("public/assets/cocktails"));
 
 // DB
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`;
@@ -54,6 +79,8 @@ mongoose.connection.on("disconnected", () => {
   }, 1000);
 });
 
+connect();
+
 app.use("/search", require("./routes/search"));
 app.use("/cocktail", require("./routes/cocktail"));
 app.use("/cocktails", require("./routes/cocktails"));
@@ -63,7 +90,5 @@ app.use("/list", require("./routes/list"));
 app.get("*", (req, res) => {
   res.status(404).json({ message: "URL not found" });
 });
-
-connect();
 
 app.listen(process.env.LISTEN_PORT);
