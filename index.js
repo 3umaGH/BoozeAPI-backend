@@ -8,9 +8,22 @@ require("dotenv").config();
 const app = express();
 const dir = path.resolve("public/");
 
-app.use(cors({
-  origin: true
-}));
+app.use(
+  cors({
+    origin: "*",
+    optionsSuccessStatus: 200,
+  })
+);
+
+function checkSecret(req, res, next) {
+  if (req.query.key === process.env.SECRET_KEY || undefined) {
+    next();
+  } else {
+    res.status(403).json({ message: "Access denied. Invalid key." });
+  }
+}
+
+app.use(checkSecret);
 
 app.use("/cocktails", express.static("public/assets/cocktails"));
 
@@ -41,19 +54,11 @@ mongoose.connection.on("disconnected", () => {
   }, 1000);
 });
 
-function checkSecret(req, res, next) {
-  if (req.query.key === process.env.SECRET_KEY || undefined) {
-    next();
-  } else {
-    res.status(403).json({ message: "Access denied. Invalid key." });
-  }
-}
-
-app.use("/search", checkSecret, require("./routes/search"));
-app.use("/cocktail", checkSecret, require("./routes/cocktail"));
-app.use("/cocktails", checkSecret, require("./routes/cocktails"));
-app.use("/lookup", checkSecret, require("./routes/lookup"));
-app.use("/list", checkSecret, require("./routes/list"));
+app.use("/search", require("./routes/search"));
+app.use("/cocktail", require("./routes/cocktail"));
+app.use("/cocktails", require("./routes/cocktails"));
+app.use("/lookup", require("./routes/lookup"));
+app.use("/list", require("./routes/list"));
 
 app.get("*", (req, res) => {
   res.status(404).json({ message: "URL not found" });
