@@ -57,7 +57,7 @@ router.get("/popular", async (req, res) => {
     return res.status(200).json(drinks);
   } catch (err) {
     console.error(err);
-    res.status(500).send("Internal Server Error");
+    res.status(500).send(err);
   }
 });
 
