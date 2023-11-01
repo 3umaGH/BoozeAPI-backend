@@ -50,6 +50,7 @@ app.use("/search", checkSecret, require("./routes/search"));
 app.use("/cocktail", checkSecret, require("./routes/cocktail"));
 app.use("/cocktails", checkSecret, require("./routes/cocktails"));
 app.use("/lookup", checkSecret, require("./routes/lookup"));
+app.use("/list", checkSecret, require("./routes/list"));
 
 app.get("*", (req, res) => {
   res.status(404).json({ message: "URL not found" });
