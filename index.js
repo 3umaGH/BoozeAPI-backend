@@ -24,23 +24,9 @@ function checkDBConnection(req, res, next) {
   if (mongoose.connection.readyState === 1) {
     next();
   } else {
-    const originalRequest = {
-      method: req.method,
-      url: req.url,
-      body: req.body,
-    };
-
     mongoose.connection.once("connected", () => {
-      const repeatRequest = {
-        method: originalRequest.method,
-        url: originalRequest.url,
-        body: originalRequest.body,
-      };
-
-      app.handle(req, res, next);
+      next();
     });
-
-    mongoose.connect(uri, options);
   }
 }
 
