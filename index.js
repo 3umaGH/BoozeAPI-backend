@@ -8,7 +8,7 @@ const app = express();
 
 app.use(cors());
 
-app.use("/drinks", express.static("static/drinks"));
+/*app.use("/drinks", express.static("static/drinks"));*/
 
 // DB
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`;
@@ -52,8 +52,8 @@ app.use("/cocktail", checkSecret, require("./routes/cocktail"));
 app.use("/cocktails", checkSecret, require("./routes/cocktails"));
 app.use("/lookup", checkSecret, require("./routes/lookup"));
 
-app.get("*", (req, res) => {
-  res.status(404).json({ message: "URL Not found" });
-});
+/*app.get("*", (req, res) => {
+  res.status(404).json({ message: "URL not found" });
+});*/
 
 app.listen(process.env.LISTEN_PORT);
