@@ -61,7 +61,7 @@ mongoose.connection.on("disconnected", () => {
   console.log("Mongoose disconnected trying to reconnect.");
 
   setTimeout(() => {
-    mongoose.connect(uri, options);
+    mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
   }, 1000);
 });
 
