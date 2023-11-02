@@ -3,6 +3,7 @@ const router = express.Router();
 const Drink = require("../models/drink");
 
 const { param, validationResult } = require("express-validator");
+const Ingredient = require("../models/ingredient");
 
 router.get(
   "/:id",
@@ -13,11 +14,11 @@ router.get(
   async (req, res) => {
     try {
       const targetId = req.params.id;
-      const drink = await Drink.findOne({ id: targetId }).exec();
+      const drink = await Ingredient.findOne({ id: targetId }).exec();
 
       if (!drink) {
-        console.log("No drink found with id:", targetId);
-        return res.status(404).json({ message: "Drink not found" });
+        console.log("No ingredient found with id:", targetId);
+        return res.status(404).json({ message: "Ingredient not found" });
       }
 
       return res.status(200).json(drink);
