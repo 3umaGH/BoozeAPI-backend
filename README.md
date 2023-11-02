@@ -11,7 +11,7 @@ http://url/api/cocktails/<ids (1,2,3)> - Get multiple cocktails by ID.
 
 # Search
 
-http://url/api/search/?name=<name>&glass=<glass>&category=<category>&ingredients=<ingredients>&alcoholic=<alcoholic> - Search by parameters (Can pass multiple ingredients separated by comma).
+http://url/api/cocktail/?name=<name>&glass=<glass>&category=<category>&ingredients=<ingredients>&alcoholic=<alcoholic> - Search by parameters (Can pass multiple ingredients separated by comma).
 
 
 # Look up
@@ -29,6 +29,8 @@ http://url/api/list - Display all categories, alcoholic, glass types and ingredi
 # Ingredients
 
 http://url/api/ingredient/<id> - Search ingredient by ID.
+
+http://url/api/ingredient/?name=<name> - Search ingredient by name.
 
 
 

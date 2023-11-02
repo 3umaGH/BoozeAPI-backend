@@ -52,7 +52,6 @@ mongoose.connection.on("disconnected", () => {
 
 connect();
 
-app.use("/api/search", require("./routes/search"));
 app.use("/api/cocktail", require("./routes/cocktail"));
 app.use("/api/cocktails", require("./routes/cocktails"));
 app.use("/api/lookup", require("./routes/lookup"));
