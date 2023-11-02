@@ -1,25 +1,35 @@
 # CocktailDB-API
 
 # Usage
-http://url/cocktail/<id>- Search by id (returns 1 cocktail)
 
-https://url/cocktail/img/<id>.jpg - Get cocktails image by ID.
+http://url/api/cocktail/<id> - Search by id (returns 1 cocktail)
 
-http://url/cocktails/<ids (1,2,3)>- Search by multiple ids (returns all found cocktails)
+https://url/api/cocktail/img/<id>.jpg - Get cocktails image
 
-
-
-http://localhost:3001/search/?name=<name>&glass=<glass>&category=<category>&ingredients=<ingredients>&alcoholic=<alcoholic> - Search by parameters. (can pass multiple ingredients separated by comma)
+http://url/api/cocktails/<ids (1,2,3)> - Get multiple cocktails by ID.
 
 
+# Search
 
-http://url/lookup/random - Get 10 random cocktails add ?amount=<amount> to set amount.
-
-http://url/lookup/popular - Display popular cocktails from a predefined list.
-
-
-http://url/list - Display all categories, alcoholic, glass types and ingredients names.
+http://url/api/search/?name=<name>&glass=<glass>&category=<category>&ingredients=<ingredients>&alcoholic=<alcoholic> - Search by parameters (Can pass multiple ingredients separated by comma).
 
 
+# Look up
 
-If SECRET_KEY is defined in .env file, then add ?key=<key> to your url.
+http://url/api/lookup/random - Get 10 random cocktails. Use ?amount=<amount> to set amount.
+
+http://url/api/lookup/popular - Display popular cocktails from a predefined list.
+
+
+# Lists
+
+http://url/api/list - Display all categories, alcoholic, glass types and ingredients names.
+
+
+# Ingredients
+
+http://url/api/ingredient/<id> - Search ingredient by ID.
+
+
+
+If SECRET_KEY is defined in .env file, then add ?key=<key> to your url/api.
