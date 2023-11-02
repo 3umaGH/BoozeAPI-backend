@@ -3,12 +3,15 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const path = require("path");
 
-require("dotenv").config();
+const checkDBConnection = require("./middleware/checkDBConnection");
+const checkSecret = require("./middleware/checkSecret");
+const rateLimiter = require("./middleware/rateLimiter");
 
 const app = express();
 const dir = path.resolve("public/");
 
 app.use(checkSecret);
+app.use(rateLimiter);
 
 app.use(
   cors({
@@ -19,24 +22,6 @@ app.use(
 
 app.use("/api/cocktail/img", express.static("public/assets/cocktails"));
 app.use(checkDBConnection);
-
-function checkDBConnection(req, res, next) {
-  if (mongoose.connection.readyState === 1) {
-    next();
-  } else {
-    mongoose.connection.once("connected", () => {
-      next();
-    });
-  }
-}
-
-function checkSecret(req, res, next) {
-  if (req.query.key === process.env.SECRET_KEY || undefined) {
-    next();
-  } else {
-    res.status(403).json({ message: "Access denied. Invalid key." });
-  }
-}
 
 // DB
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`;
@@ -72,8 +57,5 @@ app.use("/api/cocktail", require("./routes/cocktail"));
 app.use("/api/cocktails", require("./routes/cocktails"));
 app.use("/api/lookup", require("./routes/lookup"));
 app.use("/api/list", require("./routes/list"));
-
-
-
 
 app.listen(process.env.LISTEN_PORT);
