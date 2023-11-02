@@ -58,4 +58,8 @@ app.use("/api/cocktails", require("./routes/cocktails"));
 app.use("/api/lookup", require("./routes/lookup"));
 app.use("/api/list", require("./routes/list"));
 
+app.get("*", (req, res) => {
+  return res.status(404).json({ message: "Page not found." });
+});
+
 app.listen(process.env.LISTEN_PORT);

@@ -18,11 +18,9 @@ router.get("/random", [query("amount").trim().escape()], async (req, res) => {
     } else amount = parseFloat(amount);
 
     if (amount > MAX_RANDOM_COCKTAILS_PER_REQUEST)
-      return res
-        .status(400)
-        .json({
-          message: `Maximum ${MAX_RANDOM_COCKTAILS_PER_REQUEST} cocktails per request.`,
-        });
+      return res.status(400).json({
+        message: `Maximum ${MAX_RANDOM_COCKTAILS_PER_REQUEST} cocktails per request.`,
+      });
 
     const randomCocktails = await Drink.aggregate([
       { $sample: { size: amount } },
@@ -43,10 +41,11 @@ router.get("/random", [query("amount").trim().escape()], async (req, res) => {
 router.get("/popular", async (req, res) => {
   try {
     const targetIds = [
-      388, 433, 380, 421, 593, 227, 223, 394, 393, 401, 99, 100, 65, 66, 22,
-      165, 59, 23, 24, 67,
+      1813057, 6183713, 6524874, 156387, 5805584, 7974211, 4131349, 2697178,
+      4853541, 3215518, 3951687, 5214284, 9319833, 6830846, 5428957, 1889518,
+      8111614, 338623, 6427689, 5854300,
     ];
-    
+
     const drinks = await Drink.find({ id: { $in: targetIds } }).exec();
 
     if (!drinks || drinks.length == 0) {
