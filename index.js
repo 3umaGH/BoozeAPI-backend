@@ -17,7 +17,7 @@ app.use(
   })
 );
 
-app.use("/cocktail/img", express.static("public/assets/cocktails"));
+app.use("/api/cocktail/img", express.static("public/assets/cocktails"));
 app.use(checkDBConnection);
 
 function checkDBConnection(req, res, next) {
@@ -67,15 +67,13 @@ mongoose.connection.on("disconnected", () => {
 
 connect();
 
-app.use("/search", require("./routes/search"));
-app.use("/cocktail", require("./routes/cocktail"));
-app.use("/cocktails", require("./routes/cocktails"));
-app.use("/lookup", require("./routes/lookup"));
-app.use("/list", require("./routes/list"));
+app.use("/api/search", require("./routes/search"));
+app.use("/api/cocktail", require("./routes/cocktail"));
+app.use("/api/cocktails", require("./routes/cocktails"));
+app.use("/api/lookup", require("./routes/lookup"));
+app.use("/api/list", require("./routes/list"));
 
 
-app.get("*", (req, res) => {
-  res.status(404).json({ message: "URL not found" });
-});
+
 
 app.listen(process.env.LISTEN_PORT);
