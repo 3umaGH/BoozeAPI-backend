@@ -11,6 +11,9 @@ const app = express();
 const dir = path.resolve("public/");
 
 app.use(checkSecret);
+app.use("/api/cocktail/img", express.static("public/assets/cocktails"));
+app.use("/api/ingredient/img", express.static("public/assets/ingredients"));
+
 app.use(rateLimiter);
 
 app.use(
@@ -20,7 +23,6 @@ app.use(
   })
 );
 
-app.use("/api/cocktail/img", express.static("public/assets/cocktails"));
 app.use(checkDBConnection);
 
 // DB

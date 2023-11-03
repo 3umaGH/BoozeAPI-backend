@@ -30,6 +30,8 @@ http://url/api/list - Display all categories, alcoholic, glass types and ingredi
 
 http://url/api/ingredient/<id> - Search ingredient by ID.
 
+http://url/api/ingredient/img/<id>.png - Search ingredient by ID.
+
 http://url/api/ingredient/?name=<name> - Search ingredient by name.
 
 
