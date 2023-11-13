@@ -26,11 +26,11 @@ app.use(
 app.use(checkDBConnection);
 
 // DB
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`;
+const uri = `${process.env.DB_URI}`;
 
 // Connect to MongoDB
 const connect = () => {
-  mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+  mongoose.connect(uri, { dbName: process.env.DB_NAME });
 };
 
 // Listen for the connection event
