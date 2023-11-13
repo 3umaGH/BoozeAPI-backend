@@ -88,7 +88,7 @@ router.get(
 
       if (targetAlcoholic) {
         queryConditions.push({
-          alcoholic: { $regex: new RegExp(targetAlcoholic, "i") },
+          alcoholic: { $regex: new RegExp(`^${targetAlcoholic}$`, "i") },
         });
       }
 
