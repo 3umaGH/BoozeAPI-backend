@@ -11,8 +11,8 @@ const app = express();
 const dir = path.resolve("public/");
 
 app.use(checkSecret);
-app.use("/api/cocktail/img", express.static("public/assets/cocktails"));
-app.use("/api/ingredient/img", express.static("public/assets/ingredients"));
+app.use("/cocktail/img", express.static("public/assets/cocktails"));
+app.use("/ingredient/img", express.static("public/assets/ingredients"));
 
 app.use(rateLimiter);
 
@@ -54,12 +54,12 @@ mongoose.connection.on("disconnected", () => {
 
 connect();
 
-app.use("/api/cocktail", require("./routes/cocktail"));
-app.use("/api/cocktails", require("./routes/cocktails"));
-app.use("/api/lookup", require("./routes/lookup"));
-app.use("/api/list", require("./routes/list"));
+app.use("/cocktail", require("./routes/cocktail"));
+app.use("/cocktails", require("./routes/cocktails"));
+app.use("/lookup", require("./routes/lookup"));
+app.use("/list", require("./routes/list"));
 
-app.use("/api/ingredient", require("./routes/ingredient"));
+app.use("/ingredient", require("./routes/ingredient"));
 
 app.get("*", (req, res) => {
   return res.status(404).json({ message: "Page not found." });
