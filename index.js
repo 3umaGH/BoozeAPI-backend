@@ -16,6 +16,8 @@ app.use("/ingredient/img", express.static("public/assets/ingredients"));
 
 app.use(rateLimiter);
 
+app.set('trust proxy', 1);
+
 app.use(
   cors({
     origin: "*",
