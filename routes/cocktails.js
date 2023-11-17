@@ -7,7 +7,6 @@ require("dotenv").config();
 const { param, validationResult } = require("express-validator");
 
 const MAX_IDS_PER_QUERY = process.env.MAX_IDS_PER_QUERY || 100;
-const MIN_CHAR_PER_NAME_SEARCH = process.env.MIN_CHAR_PER_NAME_SEARCH || 3;
 
 router.get(
   "/:ids",
