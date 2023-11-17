@@ -27,7 +27,7 @@ router.get("/random", [query("amount").trim().escape()], async (req, res) => {
     ]).exec();
 
     if (!randomCocktails || randomCocktails.length === 0) {
-      console.log("Unable to fetch random drinks", targetId);
+      console.log("Unable to fetch random drinks");
       return res.status(404).json({ message: "Unable to get random drinks" });
     }
 
