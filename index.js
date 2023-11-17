@@ -32,7 +32,7 @@ const uri = `${process.env.DB_URI}`;
 
 // Connect to MongoDB
 const connect = () => {
-  mongoose.connect(uri, { dbName: process.env.DB_NAME });
+  mongoose.connect(uri, { dbName: process.env.DB_NAME, heartbeatFrequencyMS:10000 });
 };
 
 // Listen for the connection event
