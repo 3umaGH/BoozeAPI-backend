@@ -3,20 +3,12 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const path = require("path");
 
-const checkDBConnection = require("./middleware/checkDBConnection");
+//const checkDBConnection = require("./middleware/checkDBConnection");
 const checkSecret = require("./middleware/checkSecret");
 const rateLimiter = require("./middleware/rateLimiter");
 
 const app = express();
 const dir = path.resolve("public/");
-
-app.use(checkSecret);
-app.use("/cocktail/img", express.static("public/assets/cocktails"));
-app.use("/ingredient/img", express.static("public/assets/ingredients"));
-
-app.use(rateLimiter);
-
-app.set('trust proxy', 1);
 
 app.use(
   cors({
@@ -25,14 +17,21 @@ app.use(
   })
 );
 
-app.use(checkDBConnection);
+app.use(rateLimiter);
+app.set('trust proxy', 1);
+
+app.use("/cocktail/img", express.static("public/assets/cocktails"));
+app.use("/ingredient/img", express.static("public/assets/ingredients"));
+app.use(checkSecret);
+
+//app.use(checkDBConnection);
 
 // DB
 const uri = `${process.env.DB_URI}`;
 
 // Connect to MongoDB
 const connect = () => {
-  mongoose.connect(uri, { dbName: process.env.DB_NAME, heartbeatFrequencyMS:10000 });
+  mongoose.connect(uri, { dbName: process.env.DB_NAME });
 };
 
 // Listen for the connection event
